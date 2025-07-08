@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  # --- Contêiner 1: Banco de Dados MariaDB ---
+  barraquinha:
+    image: mariadb:latest
+    container_name: barraquinha
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "senha_super_secreta_do_root"
+      MYSQL_DATABASE: "barraquinha"
+      MYSQL_USER: "cobrita"
+      MYSQL_PASSWORD: "temumabotanaminhacobra"
+    volumes:
+      # Esta linha salva os dados do banco na sua máquina local
+      - ./database_data:/var/lib/mysql
+    networks:
+      - minha-rede
+
+  # --- Contêiner 2: Aplicação Web em PHP ---
+  arraiacker:
+    # 'build' diz para o Docker usar a pasta ./webapp para construir a imagem
+    build: ./arraiacker
+    container_name: arraiacker
+    ports:
+      # Expõe a porta 80 do container na porta 8080 do seu computador
+      - "8080:80"
+    depends_on:
+      # Garante que o container do banco de dados inicie primeiro
+      - barraquinha
+    networks:
+      - minha-rede
+
+  # --- Contêiner 3: Servidor SSH (O "Boss" Final) ---
+  bolodemi:
+    # 'build' aponta para a pasta que criamos, onde está o Dockerfile do SSH
+    build: ./bolodemi
+    container_name: bolodemi_ssh_server
+    ports:
+      # Mapeia a porta 2222 do seu computador para a porta 22 (SSH) do contêiner.
+      # Você pode usar outra porta se a 2222 estiver ocupada.
+      - "2222:22"
+    networks:
+      - minha-rede
+
+# Define a rede que todos os contêineres irão compartilhar
+networks:
+  minha-rede:
+    driver: bridge
