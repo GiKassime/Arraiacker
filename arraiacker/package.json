@@ -1,0 +1,22 @@
+{
+    "name": "arraiacker-app",
+    "version": "1.0.0",
+    "description": "Aplicação PHP com Tailwind CSS",
+    "main": "index.php",
+    "scripts": {
+        "build-css": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+        "watch-css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+        "build": "npm run build-css"
+    },
+    "devDependencies": {
+        "tailwindcss": "^3.4.0",
+        "@tailwindcss/cli": "^0.1.2"
+    },
+    "keywords": [
+        "php",
+        "tailwind",
+        "css"
+    ],
+    "author": "Kassime",
+    "license": "MIT"
+}

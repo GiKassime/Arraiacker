@@ -7,7 +7,7 @@ services:
     container_name: barraquinha
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: "senha_super_secreta_do_root"
+      MYSQL_ROOT_PASSWORD: "minhocauhaha"
       MYSQL_DATABASE: "barraquinha"
       MYSQL_USER: "cobrita"
       MYSQL_PASSWORD: "temumabotanaminhacobra"
@@ -15,7 +15,8 @@ services:
       # Esta linha salva os dados do banco na sua máquina local
       - ./database_data:/var/lib/mysql
     networks:
-      - minha-rede
+      minha-rede:
+        ipv4_address: 172.20.0.5
 
   # --- Contêiner 2: Aplicação Web em PHP ---
   arraiacker:
@@ -24,12 +25,15 @@ services:
     container_name: arraiacker
     ports:
       # Expõe a porta 80 do container na porta 8080 do seu computador
-      - "8080:80"
+      # Para acessar de qualquer IP da rede, use 0.0.0.0:8080:80
+      # Para um IP específico, use IP_DESEJADO:8080:80
+      - "192.168.120.244:8589:80"
     depends_on:
       # Garante que o container do banco de dados inicie primeiro
       - barraquinha
     networks:
-      - minha-rede
+      minha-rede:
+        ipv4_address: 172.20.0.10
 
   # --- Contêiner 3: Servidor SSH (O "Boss" Final) ---
   bolodemi:
@@ -41,9 +45,13 @@ services:
       # Você pode usar outra porta se a 2222 estiver ocupada.
       - "2222:22"
     networks:
-      - minha-rede
+      minha-rede:
+        ipv4_address: 172.20.0.15
 
 # Define a rede que todos os contêineres irão compartilhar
 networks:
   minha-rede:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
