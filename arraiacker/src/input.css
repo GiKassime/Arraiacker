@@ -4,7 +4,7 @@
 
 /* Gradiente de fundo - tema festa junina */
 .gradient-festa {
-  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ffd23f 50%, #a56a1e 75%, #ff6b35 100%);
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ffd23f 50%, #fd9105 75%, #ff6b35 100%);
   background-size: 400% 400%;
   animation: gradient-animation 15s ease infinite;
 }
@@ -99,10 +99,12 @@ body {
   font-size: 1rem;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.9);
+  color: #374151;
 }
 
 .input-festa:focus {
   outline: none;
+  color: #374151;
   border-color: #ff6b35;
   box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
   transform: translateY(-2px);

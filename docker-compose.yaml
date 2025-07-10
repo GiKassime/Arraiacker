@@ -14,6 +14,8 @@ services:
     volumes:
       # Esta linha salva os dados do banco na sua máquina local
       - ./database_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
     networks:
       minha-rede:
         ipv4_address: 172.20.0.5
@@ -27,7 +29,7 @@ services:
       # Expõe a porta 80 do container na porta 8080 do seu computador
       # Para acessar de qualquer IP da rede, use 0.0.0.0:8080:80
       # Para um IP específico, use IP_DESEJADO:8080:80
-      - "192.168.120.244:8589:80"
+      - "127.0.0.1:8589:80"
     depends_on:
       # Garante que o container do banco de dados inicie primeiro
       - barraquinha

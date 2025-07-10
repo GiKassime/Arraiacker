@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+if (!defined('ARRAIACKER_CTF')) {
+    die('Acesso direto negado, seu zé da pinga!');
+}
+?><!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />

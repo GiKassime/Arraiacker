@@ -1,0 +1,17 @@
+# Ativa o motor de reescrita de URL
+RewriteEngine On
+
+# Impede que o próprio arquivo .htaccess seja visualizado
+<Files .htaccess>
+    Require all denied
+</Files>
+
+# CONDIÇÕES: Aplica a regra a seguir apenas se...
+# 1. O que foi solicitado na URL não é um ARQUIVO existente no servidor
+RewriteCond %{REQUEST_FILENAME} !-f
+# 2. E o que foi solicitado na URL não é um DIRETÓRIO (pasta) existente
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# REGRA: Se as condições acima forem verdadeiras...
+# Redireciona internamente qualquer requisição para o arquivo index.php
+RewriteRule ^ index.php [L,QSA]
