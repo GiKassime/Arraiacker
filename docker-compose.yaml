@@ -18,7 +18,7 @@ services:
       minha-rede:
         ipv4_address: 172.20.0.5
 
-  # --- Contêiner 2: Aplicação Web em PHP ---
+  # --- Contêiner 2: Aplicação Web em PHP ---usuarios
   arraiacker:
     # 'build' diz para o Docker usar a pasta ./webapp para construir a imagem
     build: ./arraiacker
@@ -36,10 +36,10 @@ services:
         ipv4_address: 172.20.0.10
 
   # --- Contêiner 3: Servidor SSH (O "Boss" Final) ---
-  bolodemi:
+  bolodemilho:
     # 'build' aponta para a pasta que criamos, onde está o Dockerfile do SSH
-    build: ./bolodemi
-    container_name: bolodemi_ssh_server
+    build: ./bolodemilho
+    container_name: bolodemilho
     ports:
       # Mapeia a porta 2222 do seu computador para a porta 22 (SSH) do contêiner.
       # Você pode usar outra porta se a 2222 estiver ocupada.
