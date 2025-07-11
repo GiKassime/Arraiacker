@@ -31,8 +31,67 @@ switch ($request_uri) {
     case '/dashboardmilhao':
         if (!isset($_GET['quentao']) || $_GET['quentao'] !== 'quentinho') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
+            exit;
         }
         break;
+    case '/flag4':
+        if (!isset($_GET['stm']) || $_GET['stm'] !== 'injetado') {
+            header('Location: /login?error=4'); // Erro de "acesso não autorizado".
+            exit;
+        }
+        break;
+    case '/gerar_relatorio': // Mantive a rota da sua action
+    // Verifica se o usuário tem permissão.
+    if (!isset($_SESSION['loggedin']) || $_SESSION['username'] !== 'milhão') {
+        header('Location: /login?error=4');
+        exit;
+    }
+
+    $resultado_html = ''; // Variável para guardar o HTML do resultado.
+
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['xml_template'])) {
+        $xml_data = $_POST['xml_template'];
+        
+        // --- DETECÇÃO SEGURA DO ATAQUE XXE ---
+        if (str_contains($xml_data, '<!ENTITY') && str_contains($xml_data, 'SYSTEM')) {
+            // SUCESSO! O jogador tentou o XXE. Prepara o HTML da vitória.
+            $resultado_html = '
+            <div class="mt-6 bg-yellow-400 text-gray-900 p-6 rounded-lg shadow-2xl border-4 border-yellow-500 text-center">
+                <h3 class="font-bold text-2xl mb-2">🎉 Parabéns, Hacker do Sertão! 🎉</h3>
+                <p class="mb-4">Sua entidade externa foi processada! Você detectou a falha no nosso parser XML.</p>
+                <div class="mt-4">
+                    <a href="/a_festa_acabou_pegue_seu_premio" class="inline-block bg-gray-900 text-yellow-300 font-bold py-3 px-8 rounded-full hover:bg-black">
+                        Pegar a Última Flag
+                    </a>
+                </div>
+            </div>';
+        } else {
+            // FALHA: XML normal. Prepara o HTML de feedback padrão.
+            $resultado_html = '
+            <div class="mt-6 bg-blue-800 text-white p-4 rounded-lg shadow-lg">
+                <h3 class="font-bold">Relatório Processado</h3>
+                <p>Relatório gerado, mas nada de interessante encontrado. Continue tentando.</p>
+            </div>';
+        }
+    }
+    
+    // --- Renderização da Página ---
+    // Incluímos o header e o footer manualmente para ter controle total.
+    include_once __DIR__ . '/../view/include/header.php';
+    
+    // Mostra o formulário.
+    include_once __DIR__ . '/../view/pages/gerador.php';
+
+    // Mostra o resultado (se houver).
+    echo $resultado_html;
+
+    include_once __DIR__ . '/../view/include/footer.php';
+    
+    // Termina a execução.
+    exit;
+
+
+
     case '/logout':
         require_once __DIR__ . '/../actions/logout.php';
         exit;
@@ -47,9 +106,9 @@ switch ($request_uri) {
 // e estamos prontos para desenhar a página.
 
 // Agora, e somente agora, incluímos o header.
-if($request_uri !== "/flag3"){
+if ($request_uri !== "/flag3") {
 
-    include_once (__DIR__ . '/../view/include/header.php');
+    include_once(__DIR__ . '/../view/include/header.php');
 }
 
 // Roteador de Views: Decide qual conteúdo HTML mostrar.
@@ -68,9 +127,8 @@ switch ($request_uri) {
                 require_once __DIR__ . '/../view/flags/flag2.php';
                 exit; // Encerra para não carregar mais nada.
             }
-        }else{
+        } else {
             require_once __DIR__ . '/../view/pages/home.php';
-
         }
         break;
 
@@ -91,7 +149,16 @@ switch ($request_uri) {
         // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
         require_once __DIR__ . '/../view/flags/flag3.php';
         break;
-    
+    case '/flag4':
+        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
+        require_once __DIR__ . '/../view/flags/flag4.php';
+        break;
+    case '/gerador_de_relatorio':
+        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso
+        require_once __DIR__ . '/../view/pages/gerador_de_relatorio.php';
+        break;
+
+
 
     default:
         http_response_code(404);
@@ -100,7 +167,7 @@ switch ($request_uri) {
 }
 
 // E finalmente, incluímos o footer.
-if($request_uri !== "/flag3"){
+if ($request_uri !== "/flag3") {
 
-    include_once (__DIR__ . '/../view/include/footer.php');
+    include_once(__DIR__ . '/../view/include/footer.php');
 }

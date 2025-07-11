@@ -6,6 +6,7 @@ if (!defined('ARRAIACKER_CTF')) {
 
 // Inclui a conexão com o banco de dados
 require_once __DIR__ . '/../../config/database.php';
+$_SESSION['username'] = 'milhao'; // Simula que o usuário está logado como 'milhao'
 
 // Função para buscar todos os dados de uma tabela
 function fetchAllFromTable($pdo, $tableName) {
@@ -26,10 +27,6 @@ $cronograma = fetchAllFromTable($pdo, 'cronograma_eventos');
 $fornecedores = fetchAllFromTable($pdo, 'fornecedores');
 $notas_secretas = fetchAllFromTable($pdo, 'notas_secretas');
 
-// Aqui, você pode buscar as credenciais finais do bolodemilho de um arquivo
-// e exibi-las como o "prêmio final" do dashboard.
-$ssh_user = 'caipira';
-$ssh_pass = 'b0l0d3milh0';
 
 ?>
 
@@ -40,8 +37,6 @@ $ssh_pass = 'b0l0d3milh0';
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-      
 
         <div class="bg-white rounded-xl shadow-lg p-6">
             <h3 class="font-bold text-xl text-gray-800 mb-4">👥 Caipiras (Usuários)</h3>
@@ -115,7 +110,7 @@ $ssh_pass = 'b0l0d3milh0';
                 <?php foreach ($notas_secretas as $item): ?>
                     <div>
                         <p class="font-semibold border-b border-gray-600 pb-1"><?= htmlspecialchars($item['titulo']) ?></p>
-                        <p class="text-sm text-gray-300 font-mono mt-1 p-2 bg-black rounded-md"><?= htmlspecialchars($item['nota']) ?></p>
+                        <p class="text-sm text-gray-300 font-mono mt-1 p-2 bg-black rounded-md"><?=$item['nota']?></p>
                     </div>
                 <?php endforeach; ?>
             </div>

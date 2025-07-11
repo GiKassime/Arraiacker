@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --- A VULNERABILIDADE ESTÁ AQUI ---
     // A consulta SQL é montada como uma simples string, concatenando
     // diretamente o que o usuário digitou. Isso permite a injeção.
-        $sql = "SELECT id, username, password FROM caipira WHERE username = '$username' AND password = '$password' LIMIT 1";
+    $sql = "SELECT id, username, password FROM caipira WHERE username = '$username' AND password = '$password'";
+
 
 
     try {
@@ -23,27 +24,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt = $pdo->query($sql);
         $user = $stmt->fetch();
 
+        $usernameTeste = strtolower($username);
+        $senhaTeste = strtolower($password);
+
+
         if ($user) {
             // Se a consulta retornar um usuário, o login é bem-sucedido!
             // Iniciamos a sessão e guardamos a informação
-            $_SESSION['loggedin'] = true;
-            $_SESSION['user_id'] = $user['id'];
             if ($user['username'] === 'coronel.cascavel@arraiacker.com' && $user['password'] === 'pinhão') {
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
                 header("Location: /flag1");
                 exit;
-            }else{
-                // Redirecion  a para a modal comum
+            } elseif (str_contains($usernameTeste, 'or 1=1') || str_contains($senhaTeste, 'or 1=1')) {
+                header("Location: /flag4?stm=injetado");
+                exit;
+            } else {
                 header("Location: /login?error=2");
                 exit;
-            } 
+            }
             exit;
         } else {
             // Se não encontrar usuário, redireciona de volta para o login com erro
             header("Location: /login?error=1");
             exit;
         }
-
     } catch (\PDOException $e) {
         // Se a SQL injetada quebrar a query, o participante pode ver um erro do PDO.
         // Isso é uma pista valiosa no CTF!

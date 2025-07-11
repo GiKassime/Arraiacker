@@ -29,6 +29,14 @@ if (!defined('ARRAIACKER_CTF')) {
                         <label for="password" class="label-festa">🔒 Senha da Barraquinha</label>
                         <input type="password" id="password" class="input-festa" name="password" placeholder="Digite a senha secreta" required />
                     </div>
+                    <div class="text-black">
+                        <?php 
+                        if(isset($_GET['stm'])){
+                            echo $_GET['stm'];
+                        }
+                        ?>
+                        
+                    </div>
 
 
 

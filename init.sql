@@ -102,3 +102,6 @@ INSERT INTO notas_secretas (titulo, nota) VALUES
 ('Senhas WiFi do Evento', 'WiFi_Visitantes: FestaJunina2025! | WiFi_Staff: AcessoRestritoStaff** | WiFi_Caixa: NaoMexer!!'),
 ('Combinação do Cadeado do Gerador', 'A senha é o ano do primeiro arraiá: 1998. Mas parece que o Zé perdeu a chave de novo.'),
 ('Lembrete Urgente', 'Falar com o Coronel sobre a segurança da barraca de prêmios. A senha do cofre dele é muito fraca, algo como o nome do cavalo dele. Seria "Trovão"? Preciso confirmar.');
+
+INSERT INTO notas_secretas (titulo, nota) VALUES
+('TODO Urgente - TI', 'O novo gerador de relatórios (baseado em XML) está em teste no endpoint <a href="/gerador_de_relatorio"> /gerador_de_relatorio</a> ');
