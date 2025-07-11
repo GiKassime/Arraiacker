@@ -40,55 +40,30 @@ switch ($request_uri) {
             exit;
         }
         break;
-    case '/gerar_relatorio': // Mantive a rota da sua action
-    // Verifica se o usuário tem permissão.
-    if (!isset($_SESSION['loggedin']) || $_SESSION['username'] !== 'milhão') {
-        header('Location: /login?error=4');
-        exit;
-    }
+    case '/gerador_de_relatorio': // Mantive a rota da sua action
+        // Verifica se o usuário tem permissão.
+        if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'milhao') {
+            header('Location: /login?error=4');
+            exit;
+        }elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['xml_template'])) {
+            $xml_data = $_POST['xml_template'];
 
-    $resultado_html = ''; // Variável para guardar o HTML do resultado.
+            // --- DETECÇÃO SEGURA DO ATAQUE XXE ---
+            if (str_contains($xml_data, '<!ENTITY') && str_contains($xml_data, 'SYSTEM')) {
+                header('Location: /gerador_de_relatorio?resultado=s0c3ss');
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['xml_template'])) {
-        $xml_data = $_POST['xml_template'];
-        
-        // --- DETECÇÃO SEGURA DO ATAQUE XXE ---
-        if (str_contains($xml_data, '<!ENTITY') && str_contains($xml_data, 'SYSTEM')) {
-            // SUCESSO! O jogador tentou o XXE. Prepara o HTML da vitória.
-            $resultado_html = '
-            <div class="mt-6 bg-yellow-400 text-gray-900 p-6 rounded-lg shadow-2xl border-4 border-yellow-500 text-center">
-                <h3 class="font-bold text-2xl mb-2">🎉 Parabéns, Hacker do Sertão! 🎉</h3>
-                <p class="mb-4">Sua entidade externa foi processada! Você detectou a falha no nosso parser XML.</p>
-                <div class="mt-4">
-                    <a href="/a_festa_acabou_pegue_seu_premio" class="inline-block bg-gray-900 text-yellow-300 font-bold py-3 px-8 rounded-full hover:bg-black">
-                        Pegar a Última Flag
-                    </a>
-                </div>
-            </div>';
-        } else {
-            // FALHA: XML normal. Prepara o HTML de feedback padrão.
-            $resultado_html = '
-            <div class="mt-6 bg-blue-800 text-white p-4 rounded-lg shadow-lg">
-                <h3 class="font-bold">Relatório Processado</h3>
-                <p>Relatório gerado, mas nada de interessante encontrado. Continue tentando.</p>
-            </div>';
+            } else {
+                header('Location: /gerador_de_relatorio?resultado=f4lh4');
+
+            }
         }
-    }
-    
-    // --- Renderização da Página ---
-    // Incluímos o header e o footer manualmente para ter controle total.
-    include_once __DIR__ . '/../view/include/header.php';
-    
-    // Mostra o formulário.
-    include_once __DIR__ . '/../view/pages/gerador.php';
-
-    // Mostra o resultado (se houver).
-    echo $resultado_html;
-
-    include_once __DIR__ . '/../view/include/footer.php';
-    
-    // Termina a execução.
-    exit;
+        break;
+    case '/flag3':
+        if(!isset($_GET['sucesso']) || $_GET['sucesso'] !== '0lt1m4fl4g1') {
+            header('Location: /login?error=4'); // Erro de "acesso não autorizado".
+            exit;
+        }
+    break;
 
 
 
@@ -154,7 +129,7 @@ switch ($request_uri) {
         require_once __DIR__ . '/../view/flags/flag4.php';
         break;
     case '/gerador_de_relatorio':
-        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso
+            // Se não for POST, ou não tiver o template, carrega a página de geração de relatório.
         require_once __DIR__ . '/../view/pages/gerador_de_relatorio.php';
         break;
 

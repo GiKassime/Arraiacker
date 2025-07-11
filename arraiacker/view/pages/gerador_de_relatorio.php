@@ -11,5 +11,26 @@
             Gerar Relatório
         </button>
     </form>
-   
+    <?php 
+if (isset($_GET['resultado']) && $_GET['resultado'] === 's0c3ss') {
+    // Usando aspas simples (') para o echo, para que as aspas duplas (") do HTML funcionem sem problemas.
+    echo '
+    <div class="mt-6 bg-yellow-400 text-gray-900 p-6 rounded-lg shadow-2xl border-4 border-yellow-500 text-center">
+        <h3 class="font-bold text-2xl mb-2">🎉 Parabéns, Hacker do Sertão! 🎉</h3>
+        <p class="mb-4">Sua entidade externa foi processada! Você detectou a falha no nosso parser XML.</p>
+        <div class="mt-4">
+            <a href="/flag3?sucesso=0lt1m4fl4g1" class="inline-block bg-gray-900 text-yellow-300 font-bold py-3 px-8 rounded-full hover:bg-black">
+                Pegar a Última Flag
+            </a>
+        </div>
+    </div>';
+} elseif (isset($_GET['resultado']) && $_GET['resultado'] === 'f4lh4') {
+    // Adicionei a verificação para 'f4lh4' aqui também, e corrigi o echo.
+    echo '
+    <div class="mt-6 bg-blue-800 text-white p-4 rounded-lg shadow-lg">
+        <h3 class="font-bold">Relatório Processado</h3>
+        <p>Relatório gerado, mas nada de interessante encontrado. Continue tentando.</p>
+    </div>';
+}
+?>
 </div>
