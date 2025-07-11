@@ -15,7 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // --- A VULNERABILIDADE ESTÁ AQUI ---
     // A consulta SQL é montada como uma simples string, concatenando
     // diretamente o que o usuário digitou. Isso permite a injeção.
-    $sql = "SELECT id, username FROM caipira WHERE username = '$username' AND password = '$password' LIMIT 1";
+        $sql = "SELECT id, username, password FROM caipira WHERE username = '$username' AND password = '$password' LIMIT 1";
+
 
     try {
         // Consulta vulneravel
@@ -25,15 +26,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($user) {
             // Se a consulta retornar um usuário, o login é bem-sucedido!
             // Iniciamos a sessão e guardamos a informação
-            session_start();
             $_SESSION['loggedin'] = true;
-            $_SESSION['username'] = $user['username'];
             $_SESSION['user_id'] = $user['id'];
-            if ($user['username'] === 'coronel.cascavel' && $user['role'] === 'amaiscaipiradetodas') {
+            if ($user['username'] === 'coronel.cascavel@arraiacker.com' && $user['password'] === 'pinhão') {
+                $_SESSION['username'] = $user['username'];
                 header("Location: /flag1");
+                exit;
             }else{
-                    // Redirecion  a para a modal comum
-                    header("Location: /login?error=2");
+                // Redirecion  a para a modal comum
+                header("Location: /login?error=2");
+                exit;
             } 
             exit;
         } else {

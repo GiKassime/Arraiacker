@@ -22,12 +22,12 @@ if (!defined('ARRAIACKER_CTF')) {
                 <form class="space-y-6" method="post" action="/login">
                     <div>
                         <label for="username" class="label-festa">👤 Login do Organizador</label>
-                        <input type="text" id="username" class="input-festa" placeholder="usuario@arraiacker.com" required />
+                        <input type="text" id="username" class="input-festa" placeholder="usuario@arraiacker.com" name="username" required />
                     </div>
 
                     <div>
                         <label for="password" class="label-festa">🔒 Senha da Barraquinha</label>
-                        <input type="password" id="password" class="input-festa" placeholder="Digite a senha secreta" required />
+                        <input type="password" id="password" class="input-festa" name="password" placeholder="Digite a senha secreta" required />
                     </div>
 
 

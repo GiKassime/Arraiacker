@@ -11,22 +11,36 @@
                 <div class="bg-gray-900 text-green-400 px-3 py-2 rounded text-sm font-mono break-all">
                     ARRAIACKER_FLAG{🌽SQL_INJECTION🌽}
                 </div>
-            </div>
-            <div class="flex flex-wrap">
-                <div class="bg-white rounded-lg p-4 text-gray-800">
-                    <h4 class="font-bold text-lg mb-2">Seu avanço:</h4>
-                    <p class="text-sm">🟢 Arraiácker (Web): Vulnerável</p>
-                    <p class="text-sm">🔴 Barraquinha (DB): Online</p>
-                    <p class="text-sm">🔴 Fase Final : Bloqueado</p>
-
-                    <div class="mt-6 text-center">
-                        <a href="/logout" class="inline-block bg-red-600 text-white font-bold py-2 px-6 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out shadow-lg transform hover:scale-105">
-                            🚪 Sair do Arraiá
-                        </a>
-                    </div>
+                <div class="invisible">
+                    MEMwcjBuM2xuNDAzbnRyNHAzbDRwMHJ0NGQ0ZnIzbnQz
                 </div>
-
             </div>
+           <div class="w-full mt-8"> <div class="bg-white rounded-lg p-6 shadow-lg text-gray-800">
+        <h4 class="font-bold text-xl mb-4 border-b pb-2">Seu Avanço no Arraiá</h4>
+        
+        <div class="space-y-3">
+            <p class="text-base flex items-center">
+                <span class="text-2xl mr-3">🟢</span> 
+                <span class="font-semibold">Arraiácker (Web):</span>&nbsp;Vulnerável
+            </p>
+            <p class="text-base flex items-center">
+                <span class="text-2xl mr-3">🔴</span> 
+                <span class="font-semibold">Barraquinha (DB):</span>&nbsp;Online
+            </p>
+            <p class="text-base flex items-center">
+                <span class="text-2xl mr-3">🔒</span> 
+                <span class="font-semibold">Fase Final:</span>&nbsp;Bloqueado
+            </p>
+        </div>
+
+        <div class="mt-8 pt-4 border-t text-center">
+            <a href="/logout" class="inline-block bg-red-600 text-white font-bold py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out shadow-md transform hover:scale-105">
+                🚪 Sair do Arraiá
+            </a>
+        </div>
+    </div>
+
+</div>
         </div>
     </section>
 

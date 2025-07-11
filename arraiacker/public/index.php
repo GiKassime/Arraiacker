@@ -22,12 +22,17 @@ switch ($request_uri) {
 
     case '/flag1':
         // Se o usuário não estiver logado ou não for o 'coronel.cascavel', redireciona.
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['username'] !== 'coronel.cascavel') {
+        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['username'] !== 'coronel.cascavel@arraiacker.com') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit; // O script para aqui, ANTES de qualquer HTML.
         }
         break; // Continua para a seção de renderização se o acesso for permitido.
-    
+
+    case '/dashboardmilhao':
+        if (!isset($_GET['quentao']) || $_GET['quentao'] !== 'quentinho') {
+            header('Location: /login?error=4'); // Erro de "acesso não autorizado".
+        }
+        break;
     case '/logout':
         require_once __DIR__ . '/../actions/logout.php';
         exit;
@@ -42,12 +47,31 @@ switch ($request_uri) {
 // e estamos prontos para desenhar a página.
 
 // Agora, e somente agora, incluímos o header.
-include_once (__DIR__ . '/../view/include/header.php');
+if($request_uri !== "/flag3"){
+
+    include_once (__DIR__ . '/../view/include/header.php');
+}
 
 // Roteador de Views: Decide qual conteúdo HTML mostrar.
 switch ($request_uri) {
     case '/':
-        require_once __DIR__ . '/../view/pages/home.php';
+        $headers = getallheaders();
+
+        // Verifica se o nosso cabeçalho customizado existe
+        if (isset($headers['X-Auth-Token'])) {
+            $token = $headers['X-Auth-Token'];
+
+            // Verifica se o token decodificado é o que esperamos
+            if ($token === '0C0r0n3ln403ntr4p3l4p0rt4d4fr3nt3') {
+                // SUCESSO! O usuário está autenticado.
+                // Carrega a página do painel de admin.
+                require_once __DIR__ . '/../view/flags/flag2.php';
+                exit; // Encerra para não carregar mais nada.
+            }
+        }else{
+            require_once __DIR__ . '/../view/pages/home.php';
+
+        }
         break;
 
     case '/login':
@@ -59,6 +83,15 @@ switch ($request_uri) {
         // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
         require_once __DIR__ . '/../view/flags/flag1.php';
         break;
+    case '/dashboardmilhao':
+        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
+        require_once __DIR__ . '/../view/pages/dashboardmilhao.php';
+        break;
+    case '/flag3':
+        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
+        require_once __DIR__ . '/../view/flags/flag3.php';
+        break;
+    
 
     default:
         http_response_code(404);
@@ -67,4 +100,7 @@ switch ($request_uri) {
 }
 
 // E finalmente, incluímos o footer.
-include_once (__DIR__ . '/../view/include/footer.php');
+if($request_uri !== "/flag3"){
+
+    include_once (__DIR__ . '/../view/include/footer.php');
+}
