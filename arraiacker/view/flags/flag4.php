@@ -1,59 +1,99 @@
-<?php
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title><?= $title ?? 'Arraiácker CTF' ?></title>
+    <meta name="description" content="Desafio CTF temático de Festa Junina" />
+    <link rel="stylesheet" href="/dist/output.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=Source+Sans+Pro:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 10s linear infinite;
+        }
+    </style>
+</head>
 
+<body class="flex flex-col min-h-screen bg-gray-900 text-white" style="font-family: 'Source Sans Pro', sans-serif;">
 
-require_once __DIR__ . './../../config/database.php';
+    <header class="header-festa py-4">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="title-festa text-4xl md:text-5xl mt-6"><?= $title ?? '🎪 ARRAIÁCKER CTF FINAL 🎪' ?></h1>
+        </div>
+    </header>
 
-$stmt_tables = $pdo->query("SHOW TABLES");
-$tables = $stmt_tables->fetchAll(PDO::FETCH_ASSOC);
+    <main class="flex-grow flex items-center justify-center p-4 pb-16">
+        
+        <div class="w-full max-w-4xl bg-gray-900 rounded-2xl shadow-2xl p-6 border-2 border-yellow-500/50 relative overflow-hidden">
+            
+            <div class="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-r from-blue-500 via-transparent to-purple-600 animate-spin-slow opacity-20"></div>
 
-$sqlinjection = "SELECT * FROM caipira ";
-$stmt_injection = $pdo->query($sqlinjection);
-$injection_result = $stmt_injection->fetchAll(PDO::FETCH_ASSOC);
+            <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+                
+                <div class="flex-shrink-0">
+                    <img src="/assets/cobraDancando.gif" alt="Cobra Dançando a Vitória" class="w-40 h-40 md:w-52 md:h-52 rounded-full border-4 border-gray-400 object-cover shadow-lg">
+                </div>
 
-// Agora, começamos a imprimir a página HTML com Tailwind
-?>
+                <div class="flex-grow text-center md:text-left">
+                    <h3 class="font-bold text-3xl text-yellow-300 mb-2">
+                        🏆 PARABÉNS, MESTRE CAIPIRA! 🏆
+                    </h3>
+                    <p class="text-gray-300 mb-4">Sua jornada pelo Arraiácker o trouxe até o tesouro final. Use as credenciais abaixo para o acesso SSH na porta 2222 e complete o desafio.</p>
+                    
+                    <div class="bg-black/50 backdrop-blur-sm text-white p-4 rounded-lg font-mono text-lg border border-gray-700">
+                        <p><span class="text-green-400">Usuário:</span> <?= htmlspecialchars($ssh_user ?? 'caipira') ?></p>
+                        <p><span class="text-green-400">Senha:</span> <?= htmlspecialchars($ssh_pass ?? 'b0l0d3milh0') ?></p>
+                    </div>
+                </div>
 
-
-    <div class="w-screen  bg-slate-800/50 backdrop-blur-sm border border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/10 overflow-hidden">
-        <div class="p-8 border-b border-slate-700">
-            <h1 class="text-4xl font-bold text-red-400 flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.001-1.742 3.001H4.42c-1.53 0-2.493-1.667-1.743-3.001l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1.75-4.25a.75.75 0 000 1.5h3.5a.75.75 0 000-1.5h-3.5z" clip-rule="evenodd" /></svg>
-                Acesso Não Autorizado Detectado
-            </h1>
-            <p class="mt-2 text-lg text-white-400">Hmmm, um caipira curioso... Parece que você encontrou algo que não devia.</p>
+            </div>
         </div>
 
-        <div class="p-8 flex space-x-8">
-    <div class="flex-1">
-        <h2 class="text-2xl font-semibold text-white mb-3">Recompensa: Nomes das Tabelas</h2>
-        <p class="mb-4 text-slate-300">Você conseguiu injetar um comando SQL. Como prêmio pela sua astúcia, aqui estão os nomes das tabelas do nosso sistema. Use com sabedoria!</p>
-        <div class="bg-black/50 rounded-lg p-4 border border-slate-700">
-            <pre class="text-green-400 text-sm overflow-x-auto"><?php print_r($tables); ?></pre>
-        </div>
-    </div>
+    </main>
 
-    <div class="flex-1">
-        <h2 class="text-2xl font-semibold text-white mb-3">Resultado da sua Exploração</h2>
-        <p class="mb-4 text-slate-300">Executamos uma consulta na tabela `caipira` usando seu input. Veja o que encontramos:</p>
-        <div class="bg-black/50 rounded-lg p-4 border border-slate-700">
-            <pre class="text-red-400 text-sm overflow-x-auto">
-<?php 
-// Verifica se a consulta retornou algo antes de imprimir
-if (empty($injection_result)) {
-    echo "Nenhum caipira encontrado ";
-} else {
-    print_r($injection_result);
-}
-?>
-                    </pre>
+    <footer class="bg-white text-black">
+        <div class="container mx-auto px-8">
+            <div class="w-full flex flex-col md:flex-row py-4">
+                <div class="flex-1 mb-6">
+                    <a class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
+                        🎪 ARRAIÁCKER CTF
+                    </a>
+                    <p class="text-gray-600 mt-2">Desafio de Cybersecurity com tema junino</p>
+                </div>
+                <div class="flex-1">
+                    <p class="uppercase text-gray-500 md:mb-6">🔗 Links</p>
+                    <ul class="list-reset mb-6">
+                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Docker Hub</a>
+                        </li>
+                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex-1">
+                    <p class="uppercase text-gray-500 md:mb-6">👨‍💻 Desenvolvedor</p>
+                    <ul class="list-reset mb-6">
+                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Sobre o Projeto</a>
+                        </li>
+                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
+                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contato</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-
         </div>
-
-        <div class="p-8 border-t border-slate-700 text-center">
-            <p class="text-white-500">Você pode tentar explorar mais, mas cuidado com os caipiras!</p>
+        <div class="border-t border-gray-300 py-4">
+            <p class="text-center text-gray-600">
+                🎪 Arraiácker CTF 2025 - Desafio de Docker e Cybersecurity | Criado por <strong>Kassime</strong>
+            </p>
         </div>
-    </div>
-
-
+    </footer>
+</body>
+</html>

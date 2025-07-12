@@ -19,7 +19,7 @@ if (isset($_GET['resultado']) && $_GET['resultado'] === 's0c3ss') {
         <h3 class="font-bold text-2xl mb-2">🎉 Parabéns, Hacker do Sertão! 🎉</h3>
         <p class="mb-4">Sua entidade externa foi processada! Você detectou a falha no nosso parser XML.</p>
         <div class="mt-4">
-            <a href="/flag3?sucesso=0lt1m4fl4g1" class="inline-block bg-gray-900 text-yellow-300 font-bold py-3 px-8 rounded-full hover:bg-black">
+            <a href="/flag4?sucesso=0lt1m4fl4g1" target="_blank" class="inline-block bg-gray-900 text-yellow-300 font-bold py-3 px-8 rounded-full hover:bg-black">
                 Pegar a Última Flag
             </a>
         </div>

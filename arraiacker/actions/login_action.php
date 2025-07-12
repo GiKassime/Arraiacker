@@ -35,10 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['loggedin'] = true;
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['username'] = $user['username'];
-                header("Location: /flag1");
+                header("Location: /flag2");
                 exit;
             } elseif (str_contains($usernameTeste, 'or 1=1') || str_contains($senhaTeste, 'or 1=1')) {
-                header("Location: /flag4?stm=injetado");
+                header("Location: /flag1?stm=injetado");
                 exit;
             } else {
                 header("Location: /login?error=2");

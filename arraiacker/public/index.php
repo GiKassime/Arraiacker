@@ -20,7 +20,7 @@ switch ($request_uri) {
         }
         break; // Continua para a seção de renderização se for GET.
 
-    case '/flag1':
+    case '/flag2':
         // Se o usuário não estiver logado ou não for o 'coronel.cascavel', redireciona.
         if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['username'] !== 'coronel.cascavel@arraiacker.com') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
@@ -34,7 +34,7 @@ switch ($request_uri) {
             exit;
         }
         break;
-    case '/flag4':
+    case '/flag1':
         if (!isset($_GET['stm']) || $_GET['stm'] !== 'injetado') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
@@ -58,7 +58,7 @@ switch ($request_uri) {
             }
         }
         break;
-    case '/flag3':
+    case '/flag4':
         if(!isset($_GET['sucesso']) || $_GET['sucesso'] !== '0lt1m4fl4g1') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
@@ -81,7 +81,7 @@ switch ($request_uri) {
 // e estamos prontos para desenhar a página.
 
 // Agora, e somente agora, incluímos o header.
-if ($request_uri !== "/flag3") {
+if ($request_uri !== "/flag4") {
 
     include_once(__DIR__ . '/../view/include/header.php');
 }
@@ -99,7 +99,7 @@ switch ($request_uri) {
             if ($token === '0C0r0n3ln403ntr4p3l4p0rt4d4fr3nt3') {
                 // SUCESSO! O usuário está autenticado.
                 // Carrega a página do painel de admin.
-                require_once __DIR__ . '/../view/flags/flag2.php';
+                require_once __DIR__ . '/../view/flags/flag3.php';
                 exit; // Encerra para não carregar mais nada.
             }
         } else {
@@ -112,20 +112,20 @@ switch ($request_uri) {
         require_once __DIR__ . '/../view/pages/login.php';
         break;
 
-    case '/flag1':
+    case '/flag2':
         // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
-        require_once __DIR__ . '/../view/flags/flag1.php';
+        require_once __DIR__ . '/../view/flags/flag2.php';
         break;
     case '/dashboardmilhao':
         // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
         require_once __DIR__ . '/../view/pages/dashboardmilhao.php';
         break;
-    case '/flag3':
+    case '/flag1':
         // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
-        require_once __DIR__ . '/../view/flags/flag3.php';
+        require_once __DIR__ . '/../view/flags/flag1.php';
         break;
     case '/flag4':
-        // A lógica de permissão já foi tratada. Se chegamos aqui, o acesso é garantido.
+        // A lógica de permissão já foi tratada. Se chegamos aqui,
         require_once __DIR__ . '/../view/flags/flag4.php';
         break;
     case '/gerador_de_relatorio':
@@ -142,7 +142,7 @@ switch ($request_uri) {
 }
 
 // E finalmente, incluímos o footer.
-if ($request_uri !== "/flag3") {
+if ($request_uri !== "/flag4") {
 
     include_once(__DIR__ . '/../view/include/footer.php');
 }
