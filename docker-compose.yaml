@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   # --- Contêiner 1: Banco de Dados MariaDB ---
   barraquinha:
@@ -12,7 +10,7 @@ services:
       MYSQL_USER: "cobrita"
       MYSQL_PASSWORD: "temumabotanaminhacobra"
     volumes:
-      # Esta linha salva os dados do banco na sua máquina local
+      #salva os dados do banco na  máquina local
       - ./database_data:/var/lib/mysql
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -22,13 +20,9 @@ services:
 
   # --- Contêiner 2: Aplicação Web em PHP ---usuarios
   arraiacker:
-    # 'build' diz para o Docker usar a pasta ./webapp para construir a imagem
     build: ./arraiacker
     container_name: arraiacker
     ports:
-      # Expõe a porta 80 do container na porta 8080 do seu computador
-      # Para acessar de qualquer IP da rede, use 0.0.0.0:8080:80
-      # Para um IP específico, use IP_DESEJADO:8080:80
       - "127.0.0.1:8589:80"
     depends_on:
       # Garante que o container do banco de dados inicie primeiro
@@ -37,14 +31,13 @@ services:
       minha-rede:
         ipv4_address: 172.20.0.10
 
-  # --- Contêiner 3: Servidor SSH (O "Boss" Final) ---
+  # --- Contêiner 3: Servidor SSH (O "Boss" Final) --- 
   bolodemilho:
-    # 'build' aponta para a pasta que criamos, onde está o Dockerfile do SSH
     build: ./bolodemilho
     container_name: bolodemilho
     ports:
       # Mapeia a porta 2222 do seu computador para a porta 22 (SSH) do contêiner.
-      # Você pode usar outra porta se a 2222 estiver ocupada.
+      
       - "2222:22"
     networks:
       minha-rede:
