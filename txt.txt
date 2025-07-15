@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rádio Militar - CTF</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: #111;
+            color: #d4af37;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .radio-container {
+            width: 500px;
+            background: #1a1a1a;
+            border: 15px solid #2a2a2a;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8),
+                        inset 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .radio-face {
+            background: #0a0a0a;
+            border: 3px solid #333;
+            border-radius: 5px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .frequency-scale {
+            height: 80px;
+            background: #121212;
+            border: 1px solid #333;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .scale-markers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .marker {
+            width: 1px;
+            height: 15px;
+            background: #d4af37;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .marker.major {
+            height: 30px;
+        }
+
+        .marker.minor {
+            height: 10px;
+        }
+
+        .marker-label {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #d4af37;
+            white-space: nowrap;
+        }
+
+        .tuner-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: red;
+            transform: translateX(-50%);
+            z-index: 2;
+            transition: left 0.3s ease-out;
+        }
+
+        .frequency-display {
+            text-align: center;
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 30px;
+            color: #d4af37;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .tuner-knob {
+            width: 90px;
+            height: 90px;
+            background: #2a2a2a;
+            border-radius: 50%;
+            margin: 0 auto;
+            position: relative;
+            border: 8px solid #1a1a1a;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.8),
+                        inset 0 0 10px rgba(0, 0, 0, 0.5);
+            cursor: grab;
+            transition: transform 0.3s ease-out;
+        }
+
+        .tuner-knob:active {
+            cursor: grabbing;
+        }
+
+        .tuner-knob::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 6px;
+            height: 25px;
+            background: #d4af37;
+            transform: translateX(-50%);
+            border-radius: 3px;
+            box-shadow: 0 0 5px rgba(212, 175, 55, 0.7);
+        }
+
+        .radio-label {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .audio-container {
+            display: none;
+        }
+
+        .static-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="radio-container">
+        <div class="radio-face">
+            <div class="static-overlay"></div>
+            <div class="frequency-scale" id="frequencyScale">
+                <div class="scale-markers" id="scaleMarkers"></div>
+                <div class="tuner-line" id="tunerLine"></div>
+            </div>
+            <div class="frequency-display" id="frequencyDisplay">155.0</div>
+            <div class="tuner-knob" id="tunerKnob"></div>
+            <div class="radio-label">MILITARY HF-2000 COMMUNICATIONS RECEIVER</div>
+        </div>
+
+        <div class="audio-container">
+            <audio id="sstvAudio" loop></audio>
+            <audio id="staticAudio" loop></audio>
+        </div>
+    </div>
+
+    <script>
+        // Configurações
+        const TARGET_FREQUENCY = 155.0; // Frequência do CTF
+        const MIN_FREQ = 100.0;
+        const MAX_FREQ = 200.0;
+        const FREQ_STEP = 0.1;
+        const PRECISION = 0.05; // Precisão necessária
+
+        // Elementos
+        const tunerKnob = document.getElementById('tunerKnob');
+        const frequencyDisplay = document.getElementById('frequencyDisplay');
+        const scaleMarkers = document.getElementById('scaleMarkers');
+        const frequencyScale = document.getElementById('frequencyScale');
+        const tunerLine = document.getElementById('tunerLine');
+        const sstvAudio = document.getElementById('sstvAudio');
+        const staticAudio = document.getElementById('staticAudio');
+
+        // Estado
+        let currentFrequency = 155.0;
+        let isDragging = false;
+        let startY = 0;
+        let startFreq = 0;
+
+        // Converte frequência para posição (0-1)
+        function freqToPosition(freq) {
+            return (freq - MIN_FREQ) / (MAX_FREQ - MIN_FREQ);
+        }
+
+        // Converte posição (0-1) para frequência
+        function positionToFreq(pos) {
+            return MIN_FREQ + pos * (MAX_FREQ - MIN_FREQ);
+        }
+
+        // Atualiza a posição visual do tuner
+        function updateTunerPosition(freq) {
+            const pos = freqToPosition(freq);
+            tunerLine.style.left = `${pos * 100}%`;
+            
+            // Rotaciona o botão (-60deg a +60deg para o range de frequências)
+            const rotation = -60 + (pos * 120);
+            tunerKnob.style.transform = `rotate(${rotation}deg)`;
+        }
+
+        // Inicializa a escala de frequência
+        function initScale() {
+            // Limpa quaisquer marcadores existentes
+            scaleMarkers.innerHTML = '';
+            
+            // Cria marcadores para cada 0.1 MHz
+            const totalMarkers = (MAX_FREQ - MIN_FREQ) / 0.1;
+            const markerWidth = 100 / totalMarkers;
+            
+            for (let i = 0; i <= totalMarkers; i++) {
+                const freq = MIN_FREQ + (i * 0.1);
+                const marker = document.createElement('div');
+                
+                // Define o tipo de marcador
+                if (i % 10 === 0) { // Marcador principal (1.0 MHz)
+                    marker.className = 'marker major';
+                    
+                    // Adiciona rótulo apenas para os marcadores principais
+                    const label = document.createElement('div');
+                    label.className = 'marker-label';
+                    label.textContent = freq.toFixed(1);
+                    marker.appendChild(label);
+                } else if (i % 5 === 0) { // Marcador médio (0.5 MHz)
+                    marker.className = 'marker';
+                } else { // Marcador menor (0.1 MHz)
+                    marker.className = 'marker minor';
+                }
+                
+                marker.style.left = `${i * markerWidth}%`;
+                scaleMarkers.appendChild(marker);
+            }
+        }
+
+        // Atualiza a frequência
+        function updateFrequency(freq) {
+            currentFrequency = parseFloat(Math.max(MIN_FREQ, Math.min(MAX_FREQ, freq)).toFixed(1));
+            frequencyDisplay.textContent = currentFrequency;
+            updateTunerPosition(currentFrequency);
+
+            // Verifica se está na frequência alvo
+            if (Math.abs(currentFrequency - TARGET_FREQUENCY) < PRECISION) {
+                if (sstvAudio.paused) {
+                    staticAudio.pause();
+                    sstvAudio.play();
+                }
+            } else {
+                if (staticAudio.paused) {
+                    sstvAudio.pause();
+                    staticAudio.play();
+                }
+            }
+        }
+
+        // Configura os áudios
+        function setupAudio() {
+            sstvAudio.src = 'sstv_audio.mp3'; // Substitua pelo seu arquivo
+            staticAudio.src = 'https://assets.mixkit.co/sfx/preview/mixkit-radio-static-1099.mp3'; // Som de estática
+            
+            // Configura o volume
+            sstvAudio.volume = 0.7;
+            staticAudio.volume = 0.3;
+        }
+
+        // Eventos do botão giratório
+        tunerKnob.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.clientY;
+            startFreq = currentFrequency;
+            e.preventDefault();
+            tunerKnob.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            
+            const deltaY = startY - e.clientY;
+            const newFreq = startFreq + (deltaY * 0.1);
+            
+            updateFrequency(newFreq);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            tunerKnob.style.cursor = 'grab';
+        });
+
+        // Eventos da escala de frequência
+        frequencyScale.addEventListener('click', (e) => {
+            const rect = frequencyScale.getBoundingClientRect();
+            const clickPos = (e.clientX - rect.left) / rect.width;
+            const newFreq = positionToFreq(clickPos);
+            updateFrequency(newFreq);
+        });
+
+        // Toque para mobile
+        tunerKnob.addEventListener('touchstart', (e) => {
+            isDragging = true;
+            startY = e.touches[0].clientY;
+            startFreq = currentFrequency;
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            
+            const deltaY = startY - e.touches[0].clientY;
+            const newFreq = startFreq + (deltaY * 0.1);
+            
+            updateFrequency(newFreq);
+        });
+
+        document.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        frequencyScale.addEventListener('touchend', (e) => {
+            const rect = frequencyScale.getBoundingClientRect();
+            const touchPos = (e.changedTouches[0].clientX - rect.left) / rect.width;
+            const newFreq = positionToFreq(touchPos);
+            updateFrequency(newFreq);
+        });
+
+        // Inicialização
+        initScale();
+        setupAudio();
+        updateFrequency(currentFrequency);
+        updateTunerPosition(currentFrequency);
+    </script>
+</body>
+</html>

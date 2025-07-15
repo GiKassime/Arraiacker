@@ -128,11 +128,20 @@ switch ($request_uri) {
         // A lógica de permissão já foi tratada. Se chegamos aqui,
         require_once __DIR__ . '/../view/flags/flag4.php';
         break;
+    case '/r4d90fl4g':
+        // A lógica de permissão já foi tratada. Se chegamos aqui,
+        require_once __DIR__ . '/../view/pages/r4d90fl4g.php';
+        break;
+        
     case '/gerador_de_relatorio':
             // Se não for POST, ou não tiver o template, carrega a página de geração de relatório.
         require_once __DIR__ . '/../view/pages/gerador_de_relatorio.php';
         break;
-
+    case '/0lt1m4fr4gr':
+        // Se o usuário chegou aqui, significa que ele sintonizou a frequência correta.
+        // Carrega a página de sucesso.
+        require_once __DIR__ . '/../view/pages/0lt1m4fr4gr.php';
+        break;
 
 
     default:
@@ -142,7 +151,7 @@ switch ($request_uri) {
 }
 
 // E finalmente, incluímos o footer.
-if ($request_uri !== "/flag4") {
+if ($request_uri !== "/flag4" && $request_uri !== "/r4d90fl4g"  && $request_uri !== "/0lt1m4fr4gr") {
 
     include_once(__DIR__ . '/../view/include/footer.php');
 }
