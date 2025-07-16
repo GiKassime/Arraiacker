@@ -69,8 +69,8 @@ switch ($request_uri) {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
         }
+    break;
     case '/0lt1m4fr4gr':
-        // Verifica se o usuário chegou aqui com a frequência correta.
         if (!isset($_GET['p4r4b3ns']) || $_GET['p4r4b3ns'] !== 'c4ip1r1nh4') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;

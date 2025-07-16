@@ -6,19 +6,16 @@
                     <a class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl" href="#">
                         🎪 ARRAIÁCKER CTF
                     </a>
-                    <p class="text-gray-600 mt-2">Desafio de Cybersecurity com tema junino</p>
+                    <p class="text-gray-600 mt-2">Desafio de Cybersecurity com tema junino, caso precise de ajuda com alguma fase, acesse a documentação abaixo</p>
                 </div>
                 <div class="flex-1">
                     <p class="uppercase text-gray-500 md:mb-6">🔗 Links</p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Docker Hub</a>
+                            <a href="https://github.com/GiKassime/Arraiacker" class="no-underline hover:underline text-gray-800 hover:text-pink-500">GitHub</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">GitHub</a>
-                        </li>
-                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Documentação</a>
+                            <a href="./../../../assets/DocumentacaoArraiacker.pdf" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Documentação</a>
                         </li>
                     </ul>
                 </div>
@@ -26,10 +23,10 @@
                     <p class="uppercase text-gray-500 md:mb-6">👨‍💻 Desenvolvedor</p>
                     <ul class="list-reset mb-6">
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Sobre o Projeto</a>
+                            <a href="https://github.com/GiKassime/Arraiacker/blob/main/README.md" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Sobre o Projeto</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contato</a>
+                            <a href="https://github.com/GiKassime/" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contato</a>
                         </li>
                     </ul>
                 </div>
