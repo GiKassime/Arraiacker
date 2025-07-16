@@ -15,7 +15,7 @@
                             <a href="https://github.com/GiKassime/Arraiacker" class="no-underline hover:underline text-gray-800 hover:text-pink-500">GitHub</a>
                         </li>
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="./../../../assets/DocumentacaoArraiacker.pdf" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Documentação</a>
+                            <a href="/DocumentacaoArraiacker.pdf" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Documentação</a>
                         </li>
                     </ul>
                 </div>

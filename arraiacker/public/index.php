@@ -45,39 +45,46 @@ switch ($request_uri) {
         if (!isset($_SESSION['username']) || $_SESSION['username'] !== 'milhao') {
             header('Location: /login?error=4');
             exit;
-        }elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['xml_template'])) {
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['xml_template'])) {
             $xml_data = $_POST['xml_template'];
 
             // --- DETECÇÃO SEGURA DO ATAQUE XXE ---
             if (str_contains($xml_data, '<!ENTITY') && str_contains($xml_data, 'SYSTEM')) {
                 header('Location: /gerador_de_relatorio?resultado=s0c3ss');
-
             } else {
                 header('Location: /gerador_de_relatorio?resultado=f4lh4');
-
             }
         }
         break;
     case '/flag4':
-        if(!isset($_GET['sucesso']) || $_GET['sucesso'] !== '0lt1m4fl4g1') {
+        if (!isset($_GET['sucesso']) || $_GET['sucesso'] !== '0lt1m4fl4g1') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
         }
-    break;
+        break;
     case '/r4d90fl4g':
-        if(!isset($_GET['caipira']) || $_GET['caipira'] !== 'canel4linha') {
+        if (!isset($_GET['caipira']) || $_GET['caipira'] !== 'canel4linha') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
         }
-    break;
+        break;
     case '/0lt1m4fr4gr':
         if (!isset($_GET['p4r4b3ns']) || $_GET['p4r4b3ns'] !== 'c4ip1r1nh4') {
             header('Location: /login?error=4'); // Erro de "acesso não autorizado".
             exit;
         }
-    break;
+        break;
 
+    case '/DocumentacaoArraiacker.pdf':
+        header('Content-Type: application/pdf');
+        ob_clean();
+        flush();
 
+        readfile(__DIR__ . '/assets/DocumentacaoArraiacker.pdf');
+
+        // Encerra para garantir que nada mais seja executado
+        exit;
+        break;
 
     case '/logout':
         require_once __DIR__ . '/../actions/logout.php';
@@ -144,9 +151,9 @@ switch ($request_uri) {
         // A lógica de permissão já foi tratada. Se chegamos aqui,
         require_once __DIR__ . '/../view/pages/r4d90fl4g.php';
         break;
-        
+
     case '/gerador_de_relatorio':
-            // Se não for POST, ou não tiver o template, carrega a página de geração de relatório.
+        // Se não for POST, ou não tiver o template, carrega a página de geração de relatório.
         require_once __DIR__ . '/../view/pages/gerador_de_relatorio.php';
         break;
     case '/0lt1m4fr4gr':
