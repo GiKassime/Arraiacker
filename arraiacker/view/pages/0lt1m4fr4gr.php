@@ -19,25 +19,49 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen bg-gray-900 text-white" style="font-family: 'Source Sans Pro', sans-serif;">
+<body class="min-h-screen bg-gray-900 text-white flex flex-col" style="font-family: 'Source Sans Pro', sans-serif;">
 
-   
-    <main class="flex-grow flex items-center justify-center p-4 pb-16">
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-4">
         
-        <div class="w-full max-w-4xl bg-gray-900 rounded-2xl shadow-2xl p-6 border-2 border-yellow-500/50 relative overflow-hidden">
+        <div class="w-full max-w-4xl bg-gray-900 rounded-2xl shadow-2xl p-8 border-2 border-yellow-500/50 relative overflow-hidden">
             
+            <!-- Efeito de fundo girando -->
             <div class="absolute -top-1/2 -left-1/2 w-[200%] h-[200%] bg-gradient-to-r from-blue-500 via-transparent to-purple-600 animate-spin-slow opacity-20"></div>
 
-            <div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+            <!-- Conteúdo principal -->
+            <div class="relative z-10 flex flex-col items-center text-center space-y-8">
                 
+                <!-- GIF da cobra (maior e em cima) -->
                 <div class="flex-shrink-0">
-                    <img src="/assets/cobraDancandoCampea.gif" alt="Cobra Dançando a Vitória" class="w-50 h-50 md:w-52 md:h-52 rounded-full border-4 border-gray-400 object-cover shadow-lg">
+                    <img src="/assets/cobraDancandoCampea.gif" alt="Cobra Dançando a Vitória" class="w-96 h-96 rounded-full object-cover shadow-2xl">
                 </div>
 
-                <div class="flex-grow text-center md:text-left">
-                    <h3 class="font-bold text-3xl text-yellow-300 mb-2">
-                        🏆 PARABÉNS, MESTRE CAIPIRA, VOCỄ CHEGOU AO FINAL! 🏆
+                <!-- Texto embaixo -->
+                <div class="space-y-6">
+                    <h3 class="font-bold text-4xl text-yellow-300 mb-4">
+                        🏆 PARABÉNS, MESTRE CAIPIRA! 🏆
                     </h3>
+                    
+                    <h4 class="font-bold text-2xl text-green-400 mb-4">
+                        VOCÊ CHEGOU AO FINAL!
+                    </h4>
+                    
+                    <div class="bg-black/50 rounded-lg p-6 border border-yellow-500/50">
+                        <p class="text-lg text-gray-300 mb-4">
+                            🎪 Você completou todos os desafios do <strong>Arraiácker CTF</strong>!
+                        </p>
+                        
+                        <div class="bg-gray-800 p-4 rounded-lg border border-green-500">
+                            <p class="text-green-400 font-mono text-xl">
+                                🎯 ARRAIACKER{f1n4l_fl4g_m4st3r_c0mpl3t3d_2025}
+                            </p>
+                        </div>
+                        
+                        <p class="text-sm text-gray-400 mt-4">
+                            🔥 Parabéns 
+                        </p>
+                    </div>
                 </div>
 
             </div>
@@ -45,7 +69,8 @@
 
     </main>
 
-    <footer class="bg-white text-black">
+    <!-- Footer fixo embaixo -->
+    <footer class="bg-white text-black mt-auto">
         <div class="container mx-auto px-8">
             <div class="w-full flex flex-col md:flex-row py-4">
                 <div class="flex-1 mb-6">

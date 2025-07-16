@@ -19,7 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // abs($a - $b) < 0.01 é uma forma segura de comparar números com decimais.
         if (abs($frequencia_enviada - $frequencia_secreta) < 0.01) {
             
-            $mensagem = "🎉 Frequência correta! Você sintonizou a rádio Arraiacker!<br> <a href='/0lt1m4fr4gr'>Clique aqui </a>";
+            $mensagem = "🎉 Frequência correta! Você sintonizou a rádio Arraiacker!<br> <a href='/0lt1m4fr4gr?p4r4b3ns=c4ip1r1nh4'>Clique aqui </a>";
 
         } else {
             // DEU ERRADO! Define a mensagem de estática/erro.

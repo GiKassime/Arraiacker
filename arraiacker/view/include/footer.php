@@ -31,9 +31,6 @@
                         <li class="mt-2 inline-block mr-2 md:block md:mr-0">
                             <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Contato</a>
                         </li>
-                        <li class="mt-2 inline-block mr-2 md:block md:mr-0">
-                            <a href="#" class="no-underline hover:underline text-gray-800 hover:text-pink-500">Portfolio</a>
-                        </li>
                     </ul>
                 </div>
             </div>
